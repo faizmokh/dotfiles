@@ -15,6 +15,8 @@ brew 'zsh'
 brew 'antigen'
 brew 'tmux'
 brew 'wget'
+brew 'rbenv'
+brew 'imagemagick'
 
 # Cask
 
@@ -29,3 +31,4 @@ cask 'vlc'
 cask 'spotify'
 cask 'realm-browser'
 cask 'dropbox'
+cask 'kdiff3'
