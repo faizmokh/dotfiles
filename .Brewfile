@@ -17,8 +17,9 @@ brew 'tmux'
 brew 'wget'
 brew 'rbenv'
 brew 'imagemagick'
+brew 'nvm'
 
-# Cask
+# Casks
 
 cask 'alfred'
 cask 'google-chrome'
@@ -32,3 +33,4 @@ cask 'spotify'
 cask 'realm-browser'
 cask 'dropbox'
 cask 'kdiff3'
+cask 'notion'
