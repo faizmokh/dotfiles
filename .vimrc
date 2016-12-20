@@ -45,3 +45,9 @@ set list listchars=tab:\ \ ,trail:· " Display tabs & spaces visually
 set foldmethod=indent		        " Fold based on indentation
 set foldnestmax=3		            " Set max fold nesting
 set nofoldenable		            " Disable fold by default
+
+" ================ Backup Settings ===================
+"
+set noswapfile                       " No swap files
+set nobackup                        " No backup
+set nowb                            " No backup while editing
