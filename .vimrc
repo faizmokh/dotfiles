@@ -6,6 +6,19 @@ filetype indent plugin on
 " Enable syntax highlighting
 syntax on
 
+" ================ Vundle Settings ===================
+" Set runtime path to include Vundle & initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+
+call vundle#begin()
+
+Plugin 'VundleVim/Vundle.vim'       " Let Vundle manage Vundle. REQUIRED!
+
+" Plugins
+Plugin 'Valloric/YouCompleteMe'     " Awesome auto-complete
+
+call vundle#end()
+
 " ================ General Settings ==================
 " 
 set number                          " Enable line numbers
