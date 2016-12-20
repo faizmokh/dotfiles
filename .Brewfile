@@ -18,6 +18,8 @@ brew 'wget'
 brew 'rbenv'
 brew 'imagemagick'
 brew 'nvm'
+brew 'cmake'
+brew 'ninja'
 
 # Casks
 
