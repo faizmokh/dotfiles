@@ -20,6 +20,7 @@ brew 'imagemagick'
 brew 'nvm'
 brew 'cmake'
 brew 'ninja'
+brew 'tmux'
 
 # Casks
 
