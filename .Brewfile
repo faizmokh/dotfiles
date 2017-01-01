@@ -21,6 +21,7 @@ brew 'nvm'
 brew 'cmake'
 brew 'ninja'
 brew 'tmux'
+brew 'postgresql'
 
 # Casks
 
