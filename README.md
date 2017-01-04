@@ -4,23 +4,23 @@ My dotfiles config.
 
 ## Installation
 
-1. `cd` to home folder
+- `cd` to home folder
 ```
 cd ~
 ```
-2. clone the dotfiles into a bare repository
+- clone the dotfiles into a bare repository
 ```
 git clone git@github.com:faizmokhtar/dotfiles.git $HOME/.cfg
 ```
-3. define `alias` in current shell session
+- define `alias` in current shell session
 ```
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 ```
-4. checkout bare repository contents to `$HOME`
+- checkout bare repository contents to `$HOME`
 ```
 config checkout
 ```
-5. Set the flag `showUntrackedFiles` to `no`
+- Set the flag `showUntrackedFiles` to `no`
 ```
 config config --local status.showUntrackedFiles no
 ```
