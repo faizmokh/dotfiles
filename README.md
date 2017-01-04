@@ -43,6 +43,12 @@ brew bundle --global
 ```
 mkdir ~/.nvm
 ```
+- configure Vundle for vim
+```
+git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+# Enter vim and :PluginInstall
+```
+
 ## Commands
 
 Moving on, you can use `config` commands as how you would use `git`. Eg;
