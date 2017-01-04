@@ -37,6 +37,12 @@ brew bundle --global
 ```
 - Voila! 🎉
 
+## App specific configuration
+
+- create empty directory for `nvm`
+```
+mkdir ~/.nvm
+```
 ## Commands
 
 Moving on, you can use `config` commands as how you would use `git`. Eg;
