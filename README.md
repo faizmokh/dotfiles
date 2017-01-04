@@ -2,7 +2,7 @@
 
 My dotfiles config.
 
-## Installation
+## Setting Up
 
 - `cd` to home folder
 ```
@@ -25,6 +25,18 @@ config checkout
 config config --local status.showUntrackedFiles no
 ```
 
+## Installing Brew & Common applications
+
+- Install [Brew][2]
+```
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+```
+- Run the following in `$HOME` directory
+```
+brew bundle --global
+```
+- Voila! 🎉
+
 ## Commands
 
 Moving on, you can use `config` commands as how you would use `git`. Eg;
@@ -41,4 +53,4 @@ config push -u origin master
 I refer to this excellent [articles][1] written by Nicola Paolucci to manage my dotfiles.
 
 [1]:https://developer.atlassian.com/blog/2016/02/best-way-to-store-dotfiles-git-bare-repo/
-
+[2]:http://brew.sh/
