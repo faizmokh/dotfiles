@@ -23,6 +23,10 @@ brew 'ninja'
 brew 'tmux'
 brew 'postgresql'
 brew 'z'
+brew 'watchman'
+brew 'swiftlint'
+brew 'carthage'
+brew 'ack'
 
 # Casks
 
