@@ -28,3 +28,6 @@ eval "$(rbenv init -)"
 # Load nvm
 export NVM_DIR="$HOME/.nvm"
 . "/usr/local/opt/nvm/nvm.sh"
+
+# Load yarn
+export PATH="$PATH:`yarn global bin`"
