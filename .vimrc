@@ -16,7 +16,7 @@ Plugin 'VundleVim/Vundle.vim'       " Let Vundle manage Vundle. REQUIRED!
 
 " Plugins
 Plugin 'Valloric/YouCompleteMe'     " Awesome auto-complete
-
+Plugin 'scrooloose/nerdtree'        " Tree explorer
 call vundle#end()
 
 " ================ General Settings ==================
@@ -64,3 +64,8 @@ set nofoldenable		            " Disable fold by default
 set noswapfile                       " No swap files
 set nobackup                        " No backup
 set nowb                            " No backup while editing
+
+" ================ Plugin Settings ===================
+"
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
