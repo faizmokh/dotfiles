@@ -17,6 +17,7 @@ Plugin 'VundleVim/Vundle.vim'       " Let Vundle manage Vundle. REQUIRED!
 " Plugins
 Plugin 'Valloric/YouCompleteMe'     " Awesome auto-complete
 Plugin 'scrooloose/nerdtree'        " Tree explorer
+Plugin 'amadeus/vim-mjml'           " mjml syntax support
 call vundle#end()
 
 " ================ General Settings ==================
