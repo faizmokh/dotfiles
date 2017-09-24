@@ -9,7 +9,7 @@ antigen bundle gem
 antigen bundle osx
 
 antigen bundle zsh-users/zsh-syntax-highlighting
-antigen bundle zsh-users/zsh-autosuggestions
+# antigen bundle zsh-users/zsh-autosuggestions
 
 # Themes
 antigen theme faizmokhtar/zkrang themes/zkrang
@@ -37,3 +37,7 @@ export PATH="/usr/local/sbin:$PATH"
 
 # Load fastlane
 export PATH="$HOME/.fastlane/bin:$PATH"
+
+# Fix locale configuration
+export LC_ALL="en_US.UTF-8"
+
