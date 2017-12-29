@@ -8,12 +8,11 @@ antigen bundle git
 antigen bundle gem
 antigen bundle osx
 
+antigen bundle lukechilds/zsh-nvm
 antigen bundle zsh-users/zsh-syntax-highlighting
-# antigen bundle zsh-users/zsh-autosuggestions
 
 # Themes
-antigen theme faizmokhtar/zkrang themes/zkrang
-# antigen theme robbyrussell
+antigen theme sunrise
 
 # Tell antigen that we're done
 antigen apply
@@ -27,13 +26,9 @@ eval "$(rbenv init -)"
 # Load z
 . `brew --prefix`/etc/profile.d/z.sh
 
-# Load nvm
-export NVM_DIR="$HOME/.nvm"
-. "/usr/local/opt/nvm/nvm.sh"
-
 # Load yarn
-export PATH="$PATH:`yarn global bin`"
-export PATH="/usr/local/sbin:$PATH"
+# export PATH="$PATH:`yarn global bin`"
+# export PATH="/usr/local/sbin:$PATH"
 
 # Load fastlane
 export PATH="$HOME/.fastlane/bin:$PATH"
@@ -41,3 +36,6 @@ export PATH="$HOME/.fastlane/bin:$PATH"
 # Fix locale configuration
 export LC_ALL="en_US.UTF-8"
 
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
