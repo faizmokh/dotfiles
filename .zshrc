@@ -19,6 +19,7 @@ antigen apply
 
 # Alias
 alias config='/usr/local/bin/git --git-dir=$HOME/.cfg --work-tree=$HOME'
+alias git=hub
 
 # Load rbenv
 eval "$(rbenv init -)"

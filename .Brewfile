@@ -27,6 +27,7 @@ brew 'watchman'
 brew 'swiftlint'
 brew 'carthage'
 brew 'ack'
+brew 'hub'
 
 # Casks
 
