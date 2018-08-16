@@ -1,0 +1,18 @@
+[alias]
+    undo = reset --soft HEAD^
+    # via: https://git-scm.com/docs/git-reset#git-reset-emgitresetemltmodegtltcommitgt
+    stash-all = stash save --include-untracked
+    # via: https://git-scm.com/docs/git-stash
+    glog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+    # via: https://medium.com/@payload.dd/thanks-for-the-git-st-i-will-use-this-4da5839a21a4
+
+[status]
+    showUntrackedFiles = all
+    # via: https://git-scm.com/docs/git-config#git-config-statusshowUntrackedFiles
+
+[core]
+	excludesfile = /Users/faizmokhtar/.gitignore_global
+
+[user]
+	name = Faiz Mokhtar
+	email = mfmokhtar@gmail.com
