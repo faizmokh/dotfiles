@@ -2,7 +2,7 @@
 
 There's many like this but this is mine.
 
-## Setting up dotfiles on a new machine
+## Set up dotfiles on a new machine
 
 1. Install [Brew][1] package manager
 
@@ -52,7 +52,7 @@ Checkout the actual content from the bare repository to your $HOME:
 config config --local status.showUntrackedFiles no
 ```
 
-9. Now, you can use `config` like how you normally use `git`. Eg;
+9. Now, you can use `config` like how you normally use `git`. Eg:
 
 ```
 config status
@@ -63,19 +63,38 @@ config commit -m "Add bashrc"
 config push
 ```
 
+## Install apps define in `.Brewfile`
+
+To install, run the following in `$HOME` directory:
+
+```
+brew bundle --global
+```
+
 ## Set `zsh` as the default shell
 
-Make sure you already installed `zsh`. Then, run the following;
+Make sure you already installed `zsh`. Then, run the following:
 
 ```
 sudo sh -c "echo $(which zsh) >> /etc/shells"
 chsh -s $(which zsh)
 ```
 
+## Set up [Vundle][2]
+
+Vundle is a plugin manager for vim. To set it up, run the following:
+
+```
+git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+```
+
+Launch vim and run `:PluginInstall`
+
 ### References
 
 If something fucks up, simply refer to the original article
-by [Nicola Paolucci][2] to debug it yourself.
+by [Nicola Paolucci][3] to debug it yourself.
 
 [1]:https://brew.sh/
-[2]:https://developer.atlassian.com/blog/2016/02/best-way-to-store-dotfiles-git-bare-repo/
+[2]:https://github.com/VundleVim/Vundle.vim
+[3]:https://developer.atlassian.com/blog/2016/02/best-way-to-store-dotfiles-git-bare-repo/
