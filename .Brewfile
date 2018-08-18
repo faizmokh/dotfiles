@@ -28,6 +28,12 @@ brew 'carthage'
 brew 'ack'
 brew 'hub'
 brew 'chisel'
+brew 'diff-so-fancy'
+brew 'hugo'
+
+# Programming Languages
+
+brew 'golang'
 
 # Casks
 
@@ -43,3 +49,4 @@ cask 'realm-browser'
 cask 'dropbox'
 cask 'kdiff3'
 cask 'the-unarchiver'
+cask 'gitup'
