@@ -30,6 +30,8 @@ brew 'hub'
 brew 'chisel'
 brew 'diff-so-fancy'
 brew 'hugo'
+brew 'git-flow'
+brew 'exercism'
 
 # Programming Languages
 
