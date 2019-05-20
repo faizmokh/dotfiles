@@ -23,3 +23,9 @@
 [user]
 	name = Faiz Mokhtar
 	email = mfmokhtar@gmail.com
+[push]
+	default = current
+[http]
+	cookiefile = /Users/faizmokhtar/.gitcookies
+[fetch]
+	prune = true
