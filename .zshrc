@@ -12,7 +12,7 @@ antigen bundle lukechilds/zsh-nvm
 antigen bundle zsh-users/zsh-syntax-highlighting
 
 # Themes
-antigen theme sunrise
+antigen theme robbyrussell
 
 # Tell antigen that we're done
 antigen apply
@@ -44,9 +44,10 @@ export NVM_DIR="$HOME/.nvm"
 # Set up $GOPATH
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
+export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/faizmokhtar/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/faizmokhtar/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f '/Users/faizmokhtar/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/faizmokhtar/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/Users/faizmokhtar/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/faizmokhtar/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f '/Users/faizmokhtar/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/faizmokhtar/google-cloud-sdk/completion.zsh.inc'; fi
