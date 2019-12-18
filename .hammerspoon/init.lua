@@ -48,6 +48,9 @@ end
 
 hs.hotkey.bind(power, "X", open("Xcode"))
 hs.hotkey.bind(power, "I", open("iTerm"))
+hs.hotkey.bind(power, "C", open("Visual Studio Code"))
+hs.hotkey.bind(power, "J", open("Jira"))
+hs.hotkey.bind(power, "S", open("Sublime Merge"))
 
 -- Quick switch Chrome users
 
