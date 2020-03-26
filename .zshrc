@@ -12,7 +12,7 @@ antigen bundle lukechilds/zsh-nvm
 antigen bundle zsh-users/zsh-syntax-highlighting
 
 # Themes
-antigen theme robbyrussell
+antigen theme af-magic
 
 # Tell antigen that we're done
 antigen apply
@@ -51,3 +51,20 @@ if [ -f '/Users/faizmokhtar/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/fai
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/faizmokhtar/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/faizmokhtar/google-cloud-sdk/completion.zsh.inc'; fi
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi
+export PATH="$PATH:$(python -m site --user-base)/bin"
+
+# The next line updates PATH for Netlify's Git Credential Helper.
+if [ -f '/Users/faizmokhtar/.netlify/helper/path.zsh.inc' ]; then source '/Users/faizmokhtar/.netlify/helper/path.zsh.inc'; fi
+
+# Setup ANDROID_HOME env variable
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+
+# alias
+alias mongodb='mongod --config /usr/local/etc/mongod.conf'
