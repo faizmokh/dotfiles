@@ -27,11 +27,11 @@ brew 'swiftlint'
 brew 'carthage'
 brew 'ack'
 brew 'hub'
-brew 'chisel'
 brew 'diff-so-fancy'
 brew 'hugo'
 brew 'git-flow'
 brew 'exercism'
+brew 'tree'
 
 # Programming Languages
 

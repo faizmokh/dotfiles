@@ -13,10 +13,10 @@
 [core]
 	excludesfile = /Users/faizmokhtar/.gitignore_global
 	pager = diff-so-fancy | less --tabs=4 -RFX
+	compression = 0
 
 [merge]
     tool = kdiff3
-
 [mergetool]
 	keepBackup = false
 
@@ -27,5 +27,22 @@
 	default = current
 [http]
 	cookiefile = /Users/faizmokhtar/.gitcookies
+	lowSpeedLimit = 5
+	lowSpeedTime = 10000
+	postBuffer = 500M
+	maxRequestBuffer = 100M
+
+
 [fetch]
 	prune = true
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+
+# This next lines include Netlify's Git Credential Helper configuration in your Git configuration.
+[include]
+  path = /Users/faizmokhtar/.netlify/helper/git-config
+[https]
+	postBuffer = 1048576000
