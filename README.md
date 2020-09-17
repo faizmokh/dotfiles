@@ -71,15 +71,6 @@ To install, run the following in `$HOME` directory:
 brew bundle --global
 ```
 
-## Set `zsh` as the default shell
-
-Make sure you already installed `zsh`. Then, run the following:
-
-```
-sudo sh -c "echo $(which zsh) >> /etc/shells"
-chsh -s $(which zsh)
-```
-
 ## Set up [Vundle][2]
 
 Vundle is a plugin manager for vim. To set it up, run the following:
