@@ -68,3 +68,5 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 # alias
 alias mongodb='mongod --config /usr/local/etc/mongod.conf'
+
+export PATH="/usr/local/sbin:$PATH"
