@@ -43,7 +43,7 @@ alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 7. Checkout the content from repository to your `$HOME`. If there's any issue, simply checkout the working files.
 
 ```
-Checkout the actual content from the bare repository to your $HOME:
+config checkout
 ```
 
 8. Set `showUntrackedFiles` to `no`
