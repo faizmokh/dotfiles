@@ -1,7 +1,8 @@
 # Taps
-tap 'caskroom/cask'
+tap 'homebrew/cask'
 tap 'homebrew/bundle'
 tap 'homebrew/core'
+tap 'homebrew/cask-fonts'
 
 cask_args appdir: '/Applications'
 
@@ -48,7 +49,9 @@ brew 'golang'
 
 # Casks
 
-cask 'alfred'
+cask 'alfred3'
+cask 'dash4'
+cask 'docker'
 cask 'google-chrome'
 cask 'iterm2'
 cask 'transmission'
@@ -56,6 +59,7 @@ cask 'visual-studio-code'
 cask 'vlc'
 cask 'spotify'
 cask 'slack'
+cask 'telegram'
 cask 'the-unarchiver'
 cask 'hammerspoon'
 cask 'sublime-merge'
