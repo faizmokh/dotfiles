@@ -5,15 +5,18 @@
     # via: https://git-scm.com/docs/git-stash
     glog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
     # via: https://medium.com/@payload.dd/thanks-for-the-git-st-i-will-use-this-4da5839a21a4
+  	wip = for-each-ref --sort='authordate:iso8601' --format=' %(color:green)%(authordate:relative)%09%(color:white)%(refname:short)' refs/heads
+	# via: https://carolynvanslyck.com/blog/2020/12/git-wip/
 
 [status]
     showUntrackedFiles = all
     # via: https://git-scm.com/docs/git-config#git-config-statusshowUntrackedFiles
 
 [core]
-	excludesfile = /Users/faizmokhtar/.gitignore_global
+	excludesfile = /Users/ad0502/.gitignore_global
 	pager = diff-so-fancy | less --tabs=4 -RFX
 	compression = 0
+	ignorecase = false
 
 [merge]
     tool = kdiff3

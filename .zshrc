@@ -45,12 +45,6 @@ export NVM_DIR="$HOME/.nvm"
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/faizmokhtar/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/faizmokhtar/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/faizmokhtar/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/faizmokhtar/google-cloud-sdk/completion.zsh.inc'; fi
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
@@ -70,3 +64,16 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 alias mongodb='mongod --config /usr/local/etc/mongod.conf'
 
 export PATH="/usr/local/sbin:$PATH"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/ad0502/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/ad0502/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/ad0502/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ad0502/google-cloud-sdk/completion.zsh.inc'; fi
+
+# silence ruby 2.7.* warnings
+export RUBYOPT='-W:no-deprecated -W:no-experimental'
+
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/local/bin/terraform terraform
