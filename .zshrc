@@ -1,22 +1,3 @@
-# source $(brew --prefix)/share/antigen/antigen.zsh
-source /usr/local/share/antigen/antigen.zsh
-
-antigen use oh-my-zsh
-
-# Bundles
-antigen bundle git
-antigen bundle gem
-antigen bundle osx
-
-antigen bundle lukechilds/zsh-nvm
-antigen bundle zsh-users/zsh-syntax-highlighting
-
-# Themes
-antigen theme af-magic
-
-# Tell antigen that we're done
-antigen apply
-
 # Alias
 alias config='/usr/local/bin/git --git-dir=$HOME/.cfg --work-tree=$HOME'
 alias git=hub
@@ -77,3 +58,6 @@ export RUBYOPT='-W:no-deprecated -W:no-experimental'
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/terraform terraform
+
+# run starship
+eval "$(starship init zsh)"
