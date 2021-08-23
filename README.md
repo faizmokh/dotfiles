@@ -76,6 +76,13 @@ sudo chown -R `whoami` /usr/local/
 brew analytics off
 ```
 
+## To change screenshots locations
+
+```
+touch ~/Desktop/screenshots
+defaults write com.apple.screencapture location ~/Desktop/screenshots
+```
+
 ## Install apps define in `.Brewfile`
 
 To install, run the following in `$HOME` directory:
