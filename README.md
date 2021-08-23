@@ -63,6 +63,19 @@ config commit -m "Add bashrc"
 config push
 ```
 
+## If there's a file permissions issue
+
+```
+sudo chown -R `whoami` /usr/local/*
+sudo chown -R `whoami` /usr/local/
+```
+
+## To turn of brew analytics
+
+```
+brew analytics off
+```
+
 ## Install apps define in `.Brewfile`
 
 To install, run the following in `$HOME` directory:
