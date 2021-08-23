@@ -17,7 +17,6 @@ brew 'openssl'
 brew 'vim'
 brew 'tmux'
 brew 'wget'
-brew 'rbenv'
 brew 'pyenv'
 brew 'asdf'
 brew 'cmake'
@@ -40,6 +39,7 @@ brew 'yarn'
 brew 'youtube-dl'
 brew 'mitmproxy'
 brew 'antigen'
+brew 'gpg2'
 
 # Programming Languages
 
