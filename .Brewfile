@@ -39,6 +39,7 @@ brew 'sqlite'
 brew 'yarn'
 brew 'youtube-dl'
 brew 'mitmproxy'
+brew 'antigen'
 
 # Programming Languages
 
