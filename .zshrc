@@ -20,9 +20,6 @@ antigen apply
 alias config='/usr/local/bin/git --git-dir=$HOME/.cfg --work-tree=$HOME'
 alias git=hub
 
-# Load rbenv
-eval "$(rbenv init -)"
-
 # Load z
 . `brew --prefix`/etc/profile.d/z.sh
 
@@ -40,10 +37,6 @@ export LC_ALL="en_US.UTF-8"
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
-fi
-export PATH="$PATH:$(python -m site --user-base)/bin"
 
 # The next line updates PATH for Netlify's Git Credential Helper.
 if [ -f '/Users/faizmokhtar/.netlify/helper/path.zsh.inc' ]; then source '/Users/faizmokhtar/.netlify/helper/path.zsh.inc'; fi
@@ -54,6 +47,9 @@ export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
+
+# Setup Flutter SDK
+export PATH="$PATH:$HOME/flutter/bin"
 
 # alias
 alias mongodb='mongod --config /usr/local/etc/mongod.conf'
@@ -74,4 +70,3 @@ export RUBYOPT='-W:no-deprecated -W:no-experimental'
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/terraform terraform
-

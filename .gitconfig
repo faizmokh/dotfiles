@@ -49,3 +49,5 @@
   path = /Users/faizmokhtar/.netlify/helper/git-config
 [https]
 	postBuffer = 1048576000
+[init]
+	defaultBranch = main
