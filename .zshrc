@@ -1,5 +1,5 @@
 # source $(brew --prefix)/share/antigen/antigen.zsh
-source /usr/local/share/antigen/antigen.zsh
+source /opt/homebrew/share/antigen/antigen.zsh
 
 antigen use oh-my-zsh
 
@@ -17,8 +17,7 @@ antigen bundle sindresorhus/pure --branch=main
 antigen apply
 
 # Alias
-alias config='/usr/local/bin/git --git-dir=$HOME/.cfg --work-tree=$HOME'
-alias git=hub
+alias config='/opt/homebrew/bin/git --git-dir=$HOME/.cfg --work-tree=$HOME'
 
 # Load z
 . `brew --prefix`/etc/profile.d/z.sh
@@ -66,7 +65,7 @@ if [ -f '/Users/ad0502/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ad
 export RUBYOPT='-W:no-deprecated -W:no-experimental'
 
 # setup asdf
-. /usr/local/opt/asdf/asdf.sh
+. /opt/homebrew/opt/asdf/libexec/asdf.sh
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/terraform terraform
