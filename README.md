@@ -31,7 +31,7 @@ echo ".cfg" >> ~/.gitignore
 5. Clone this repository
 
 ```
-git clone --bare git@github.com:faizmokhtar/dotfiles.git $HOME/.cfg
+git clone --bare git@github.com:faizmokh/dotfiles.git $HOME/.cfg
 ```
 
 6. Define `alias` for current scope
@@ -79,8 +79,8 @@ brew analytics off
 ## To change screenshots locations
 
 ```
-touch ~/Desktop/screenshots
-defaults write com.apple.screencapture location ~/Desktop/screenshots
+touch ~/Documents/screenshots
+defaults write com.apple.screencapture location ~/Documents/screenshots
 ```
 
 ## Install apps define in `.Brewfile`
