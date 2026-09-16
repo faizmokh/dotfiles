@@ -1,6 +1,6 @@
 cask_args appdir: '/Applications'
 
-tap 'xcodesorg/made', trusted: { formula: 'xcodes' }
+tap 'xcodesorg/made'
 
 # Formulae
 
@@ -34,7 +34,7 @@ brew 'sqlite'
 brew 'yt-dlp'
 brew 'gnupg'
 brew 'aria2'
-brew 'xcodesorg/made/xcodes'
+brew 'xcodesorg/made/xcodes', trusted: true
 brew 'zola'
 brew 'goreleaser'
 brew 'imagemagick'
