@@ -1,7 +1,7 @@
 [alias]
     undo = reset --soft HEAD^
     # via: https://git-scm.com/docs/git-reset#git-reset-emgitresetemltmodegtltcommitgt
-    stash-all = stash save --include-untracked
+    stash-all = stash push --include-untracked
     # via: https://git-scm.com/docs/git-stash
     glog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
     # via: https://medium.com/@payload.dd/thanks-for-the-git-st-i-will-use-this-4da5839a21a4
@@ -13,13 +13,8 @@
     # via: https://git-scm.com/docs/git-config#git-config-statusshowUntrackedFiles
 
 [core]
-	excludesfile = /Users/ad0502/.gitignore_global
+	excludesfile = ~/.gitignore_global
 	pager = diff-so-fancy | less --tabs=4 -RFX
-	compression = 0
-	ignorecase = false
-
-[merge]
-    tool = kdiff3
 [mergetool]
 	keepBackup = false
 
@@ -28,14 +23,6 @@
 	email = mfmokhtar@gmail.com
 [push]
 	default = current
-[http]
-	cookiefile = /Users/faizmokhtar/.gitcookies
-	lowSpeedLimit = 5
-	lowSpeedTime = 10000
-	postBuffer = 500M
-	maxRequestBuffer = 100M
-
-
 [fetch]
 	prune = true
 [filter "lfs"]
@@ -44,10 +31,9 @@
 	process = git-lfs filter-process
 	required = true
 
-# This next lines include Netlify's Git Credential Helper configuration in your Git configuration.
-[include]
-  path = /Users/faizmokhtar/.netlify/helper/git-config
-[https]
-	postBuffer = 1048576000
 [init]
 	defaultBranch = main
+
+# Optional machine/work identity and credential helper settings.
+[include]
+    path = ~/.gitconfig.local

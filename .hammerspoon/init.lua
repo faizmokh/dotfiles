@@ -39,15 +39,24 @@ wifiwatcher:start()
 
 function open(name)
   return function()
-      hs.application.launchOrFocus(name)
+      local target = name
+      if name == 'Xcode' then
+          local developer, ok = hs.execute('/usr/bin/xcode-select -p')
+          if ok then
+              local selected = developer:gsub('%s+$', ''):match('^(.*%.app)/Contents/Developer$')
+              if selected then target = selected end
+          end
+      end
+      hs.application.launchOrFocus(target)
       if name == 'Finder' then
-          hs.appfinder.appFromName(name):activate()
+          local finder = hs.appfinder.appFromName(name)
+          if finder then finder:activate() end
       end
   end
 end
 
 hs.hotkey.bind(power, "X", open("Xcode"))
-hs.hotkey.bind(power, "I", open("iTerm"))
+hs.hotkey.bind(power, "I", open("WezTerm"))
 hs.hotkey.bind(power, "C", open("Visual Studio Code"))
 hs.hotkey.bind(power, "J", open("Jira"))
 hs.hotkey.bind(power, "S", open("Sublime Merge"))
@@ -58,6 +67,7 @@ function chrome_switch_to(user)
   return function()
       hs.application.launchOrFocus("Google Chrome")
       local chrome = hs.appfinder.appFromName("Google Chrome")
+      if not chrome then return end
       local str_menu_item
       if user == "Incognito" then
           str_menu_item = {"File", "New Incognito Window"}

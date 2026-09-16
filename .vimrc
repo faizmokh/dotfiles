@@ -8,6 +8,7 @@ syntax on
 
 " ================ Vundle Settings ===================
 " Set runtime path to include Vundle & initialize
+if filereadable(expand('~/.vim/bundle/Vundle.vim/autoload/vundle.vim'))
 set rtp+=~/.vim/bundle/Vundle.vim
 
 call vundle#begin()
@@ -18,6 +19,7 @@ Plugin 'VundleVim/Vundle.vim'       " Let Vundle manage Vundle. REQUIRED!
 Plugin 'scrooloose/nerdtree'        " Tree explorer
 Plugin 'sheerun/vim-polyglot'       " Language packs syntax supports
 call vundle#end()
+endif
 
 " ================ General Settings ==================
 " 
@@ -68,4 +70,4 @@ set nowb                            " No backup while editing
 " ================ Plugin Settings ===================
 "
 autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") && exists(':NERDTree') | NERDTree | endif

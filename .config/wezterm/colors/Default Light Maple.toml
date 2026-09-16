@@ -1,0 +1,31 @@
+[metadata]
+name = "Default Light Maple"
+
+[colors]
+foreground = "#1a1a1a"
+background = "#ffffff"
+cursor_bg = "#333333"
+cursor_border = "#333333"
+cursor_fg = "#ffffff"
+selection_bg = "#a4cdfc"
+selection_fg = "#000000"
+ansi = [
+  "#1a1a1a",
+  "#c41a16",
+  "#278e1e",
+  "#8b6e00",
+  "#0f6ea0",
+  "#9b23a0",
+  "#31706e",
+  "#5d6e7a",
+]
+brights = [
+  "#000000",
+  "#c41a16",
+  "#6bc26d",
+  "#b38600",
+  "#0a60fe",
+  "#9b23a0",
+  "#6c89b3",
+  "#aaaaaa",
+]

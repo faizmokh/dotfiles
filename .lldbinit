@@ -1,7 +1,7 @@
 # ~/.lldbinit
 
 # import chisel https://github.com/facebook/chisel
-command script import /usr/local/opt/chisel/libexec/fblldb.py
+script import os, lldb; _chisel = next((p for p in ["/opt/homebrew/opt/chisel/libexec/fblldb.py", "/usr/local/opt/chisel/libexec/fblldb.py"] if os.path.isfile(p)), None); lldb.debugger.HandleCommand('command script import "' + _chisel + '"') if _chisel else None
 
 command regex ls 's/(.+)/po @import Foundation; [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"%1" error:nil]/'
 

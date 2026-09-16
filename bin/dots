@@ -1,0 +1,149 @@
+#!/bin/bash
+set -euo pipefail
+
+# Follow our installed symlink, rather than trusting the caller's directory.
+source_path=${BASH_SOURCE[0]}
+while [ -L "$source_path" ]; do
+    source_dir=$(cd -P "$(dirname "$source_path")" && pwd)
+    source_path=$(readlink "$source_path")
+    case "$source_path" in /*) ;; *) source_path="$source_dir/$source_path" ;; esac
+done
+repo=$(cd -P "$(dirname "$source_path")/.." && pwd)
+dotfiles_repo=$repo
+pi_scope=false
+cd "$repo"
+unset GIT_DIR GIT_WORK_TREE GIT_INDEX_FILE GIT_COMMON_DIR GIT_OBJECT_DIRECTORY
+unset GIT_ALTERNATE_OBJECT_DIRECTORIES GIT_NAMESPACE GIT_CONFIG GIT_CONFIG_COUNT
+
+fail() { printf 'dots: %s\n' "$*" >&2; exit 2; }
+no_args() { [ "$#" -eq 0 ] || fail 'Unexpected arguments. See dots help.'; }
+require_mise() {
+    command -v mise >/dev/null || fail 'mise is missing. Run ./install.sh first.'
+    mise dotfiles --help >/dev/null 2>&1 || fail 'Upgrade mise: native dotfiles support is required (tested with 2026.9.9).'
+}
+upstream() {
+    branch=$(git symbolic-ref --quiet --short HEAD) || fail 'Check out a branch first.'
+    remote=$(git config --get "branch.$branch.remote") || fail 'No upstream. Configure a reviewed upstream with Git first.'
+    merge=$(git config --get "branch.$branch.merge") || fail 'No upstream branch. Configure it with Git first.'
+    case "$remote" in ''|-*|.) fail 'An external upstream remote is required.' ;; esac
+    if "$pi_scope"; then [ "$remote" = origin ] || fail 'Pi operations require the verified origin upstream.'; fi
+    case "$merge" in refs/heads/*) ;; *) fail 'Upstream must be a single branch.' ;; esac
+    case "$merge" in *$'\n'*) fail 'Multiple upstream branches are unsupported.' ;; esac
+    git rev-parse --verify '@{upstream}' >/dev/null 2>&1 || fail 'Upstream is unavailable. Fetch and verify it with Git first.'
+}
+help_text() {
+    cat <<'HELP'
+Usage: dots <command>
+  status                  Managed-file state and repository status
+  diff [--staged]         Review repository changes
+  apply [--dry-run]       Apply or preview managed files (never force)
+  setup                   Complete machine setup, including Xcode and login shell
+  doctor                  Read-only checks; never installs missing tools
+  capture xcode           Capture declared Xcode files/preferences, without staging
+  restore xcode <backup>  Restore only Xcode preference keys from a dots backup
+  pi status               Show piconf repository status
+  pi diff [--staged]      Review piconf changes
+  pi add <files...>       Stage named piconf files
+  pi commit -m <message>  Commit staged piconf changes
+  pi pull|push            Use piconf's verified origin/upstream
+  add <files...>          Stage literal, repository-relative files (including deletions)
+  commit -m <message>     Commit only what is already staged
+  pull                    Fast-forward from upstream; requires a clean checkout
+  push                    Push only this branch to its upstream
+  help                    Show this help
+HELP
+}
+
+command_name=${1:-help}
+[ "$#" -eq 0 ] || shift
+if [ "$command_name" = pi ]; then
+    command_name=${1:-status}
+    [ "$#" -eq 0 ] || shift
+    case "$command_name" in
+        status|diff|add|commit|pull|push) ;;
+        *) fail 'Supported Pi commands: status, diff, add, commit, pull, push.' ;;
+    esac
+    /usr/bin/python3 "$dotfiles_repo/scripts/piconf.py" check
+    repo=$(cd -P "$HOME/.pi" && pwd)
+    cd "$repo"
+    pi_scope=true
+fi
+case "$command_name" in
+    help) no_args "$@"; help_text ;;
+    status)
+        no_args "$@"
+        if "$pi_scope"; then exec git status --short --branch; fi
+        require_mise
+        result=0
+        mise -C "$repo" dotfiles status || result=$?
+        /usr/bin/python3 "$repo/scripts/xcode-settings.py" status || result=$?
+        /usr/bin/python3 "$repo/scripts/piconf.py" status || true
+        git status --short --branch || exit $?
+        exit "$result"
+        ;;
+    diff)
+        if [ "$#" -ne 0 ]; then
+            [ "$#" -eq 1 ] && [ "$1" = --staged ] || fail 'Usage: dots diff [--staged]'
+        fi
+        exec git --no-pager diff --no-ext-diff --no-textconv "$@" --
+        ;;
+    capture)
+        [ "$#" -eq 1 ] && [ "$1" = xcode ] || fail 'Usage: dots capture xcode'
+        exec /usr/bin/python3 "$repo/scripts/xcode-settings.py" capture
+        ;;
+    restore)
+        [ "$#" -eq 2 ] && [ "$1" = xcode ] || fail 'Usage: dots restore xcode <absolute-backup-path>'
+        case "$2" in /*) ;; *) fail 'Use an absolute backup path.' ;; esac
+        exec /usr/bin/python3 "$repo/scripts/xcode-settings.py" restore "$2"
+        ;;
+    apply)
+        if [ "$#" -ne 0 ]; then
+            [ "$#" -eq 1 ] && [ "$1" = --dry-run ] || fail 'Usage: dots apply [--dry-run]'
+        fi
+        require_mise
+        if [ "$#" -eq 0 ]; then /usr/bin/python3 "$repo/scripts/xcode-settings.py" preflight; fi
+        /usr/bin/python3 "$repo/scripts/check-dotfiles.py"
+        if [ "$#" -eq 0 ]; then /usr/bin/python3 "$repo/scripts/xcode-settings.py" backup; fi
+        /usr/bin/python3 "$repo/scripts/xcode_files.py" "$@"
+        mise -C "$repo" dotfiles apply "$@"
+        exec mise -C "$repo" bootstrap macos defaults apply "$@"
+        ;;
+    setup)
+        no_args "$@"
+        exec /bin/bash "$repo/install.sh"
+        ;;
+    doctor)
+        no_args "$@"; require_mise
+        exec mise -C "$repo" run --skip-tools "$command_name"
+        ;;
+    add)
+        [ "$#" -gt 0 ] || fail 'Name one or more repository-relative files.'
+        for path in "$@"; do
+            case "$path" in ''|/*|-*|../*|*/../*|*/..|..) fail "Invalid file: $path" ;; esac
+            [ ! -d "$path" ] || fail "Name files, not directories: $path"
+            parent=$(dirname "$repo/$path")
+            while [ ! -d "$parent" ]; do parent=$(dirname "$parent"); done
+            parent=$(cd -P "$parent" && pwd)
+            case "$parent/" in "$repo/"*) ;; *) fail "File escapes repository: $path" ;; esac
+            case "/$path/" in */.git/*) fail 'Git metadata cannot be staged.' ;; esac
+            if [ ! -e "$path" ] && [ ! -L "$path" ]; then
+                git --literal-pathspecs ls-files --error-unmatch -- "$path" >/dev/null 2>&1 || fail "File does not exist: $path"
+            fi
+        done
+        exec git --literal-pathspecs add -- "$@"
+        ;;
+    commit)
+        [ "$#" -eq 2 ] && [ "$1" = -m ] && [ -n "$2" ] || fail 'Usage: dots commit -m <message>'
+        exec git commit -m "$2"
+        ;;
+    pull)
+        no_args "$@"; upstream
+        [ -z "$(git status --porcelain --untracked-files=all)" ] || fail 'Commit or move local changes before pulling.'
+        exec git -c submodule.recurse=false pull --ff-only --no-rebase --no-autostash "$remote" "$merge"
+        ;;
+    push)
+        no_args "$@"; upstream
+        exec git push --no-mirror --no-follow-tags --recurse-submodules=no "$remote" "HEAD:$merge"
+        ;;
+    *) fail "Unknown command: $command_name. See dots help." ;;
+esac

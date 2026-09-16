@@ -1,0 +1,80 @@
+# All sources resolve relative to this checkout; no fixed username or clone path.
+[settings]
+task.run_auto_install = false
+
+[dotfiles]
+"~/.local/bin/dots" = { source = "bin/dots", mode = "symlink" }
+"~/.config/fish/config.fish" = { source = ".config/fish/config.fish", mode = "symlink" }
+"~/.config/mise/config.toml" = { source = ".config/mise/config.toml", mode = "symlink" }
+"~/.gitconfig" = { source = ".gitconfig", mode = "symlink" }
+"~/.gitignore_global" = { source = ".gitignore_global", mode = "symlink" }
+"~/.gemrc" = { source = ".gemrc", mode = "symlink" }
+"~/.lldbinit" = { source = ".lldbinit", mode = "symlink" }
+"~/.vimrc" = { source = ".vimrc", mode = "symlink" }
+"~/.tmux.conf" = { source = ".tmux.conf", mode = "symlink" }
+"~/.hammerspoon" = { source = ".hammerspoon", mode = "symlink-each" }
+
+"~/.config/wezterm" = { source = ".config/wezterm", mode = "symlink-each" }
+"~/Library/Developer/Xcode/UserData/FontAndColorThemes/Catppuccin Latte.xccolortheme" = { source = "xcode/themes/latte.xccolortheme", mode = "symlink" }
+"~/Library/Developer/Xcode/UserData/FontAndColorThemes/Dracula Maple.xccolortheme" = { source = "xcode/themes/dracula.xccolortheme", mode = "symlink" }
+"~/Library/Developer/Xcode/UserData/KeyBindings/Default.idekeybindings" = { source = "xcode/keybindings.idekeybindings", mode = "symlink" }
+
+[tasks.setup]
+description = "Complete machine setup through the shared installer"
+run = "./install.sh"
+raw = true
+
+[tasks."setup:packages"]
+run = "bash scripts/setup.sh packages"
+raw = true
+
+[tasks."setup:dotfiles"]
+run = "./bin/dots apply"
+raw = true
+
+[tasks."setup:runtimes"]
+run = "bash scripts/setup.sh runtimes"
+raw = true
+
+[tasks."setup:vim"]
+run = "bash scripts/setup.sh vim"
+raw = true
+
+[tasks."setup:shell"]
+description = "Register fish and select it as the login shell"
+run = "bash scripts/setup.sh shell"
+raw = true
+
+[tasks."setup:xcode"]
+description = "Reuse selected Xcode or install latest stable; optionally specify a version"
+file = "scripts/xcode.sh"
+raw = true
+raw_args = true
+
+[tasks.doctor]
+run = "bash scripts/doctor.sh"
+
+[tasks.test]
+run = "/usr/bin/python3 -m unittest discover -s tests -v"
+
+[tasks."setup:pi"]
+run = "/usr/bin/python3 scripts/piconf.py setup"
+raw = true
+
+[bootstrap.repos."~/.pi"]
+url = "https://github.com/faizmokh/piconf.git"
+
+# BEGIN XCODE PREFERENCES (dots capture xcode updates only this block)
+[bootstrap.macos.defaults."com.apple.dt.Xcode"]
+XCFontAndColorCurrentTheme = "Catppuccin Latte.xccolortheme"
+XCFontAndColorCurrentDarkTheme = "Dracula Maple.xccolortheme"
+IDEKeyBindingCurrentPreferenceSet = "Default.idekeybindings"
+DVTTextEnablePredictiveCompletion = false
+DVTTextAutoHighlightTokensDelay = 0.25
+DVTTextShowAuthors = false
+DVTTextShowCodeCoverage = false
+DVTTextShowFoldingSidebar = true
+DVTTextShowMinimap = false
+IDEAlwaysShowEditorTabBar = false
+IDEFileExtensionDisplayMode = 1
+# END XCODE PREFERENCES

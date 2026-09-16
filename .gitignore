@@ -1,0 +1,7 @@
+*.local.toml
+.gitconfig.local
+.DS_Store
+__pycache__/
+.env
+.env.*
+!.env.example
