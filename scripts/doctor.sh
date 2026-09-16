@@ -12,12 +12,13 @@ reminder() {
     if ! "$@"; then printf 'NEXT   %s\n' "$label"; fi
 }
 wezterm_config() { wezterm --config-file "$repo/.config/wezterm/wezterm.lua" show-keys --lua >/dev/null; }
-for tool in brew fish mise git git-lfs xcodes wezterm lazygit opencode; do
+for tool in brew fish mise git git-lfs wezterm lazygit opencode; do
     check "$tool available" command -v "$tool"
 done
+reminder 'Install xcodes later to manage Xcode versions' command -v xcodes
 check 'Managed dotfiles' mise -C "$repo" dotfiles status --missing
 check 'Pi configuration checkout' /usr/bin/python3 "$repo/scripts/piconf.py" status
-check 'Xcode preference values' /usr/bin/python3 "$repo/scripts/xcode-settings.py" check
+reminder 'Apply Xcode preference values after Xcode setup' /usr/bin/python3 "$repo/scripts/xcode-settings.py" check
 check 'WezTerm config' wezterm_config
 check 'Declared Homebrew packages' brew bundle check --file="$repo/.Brewfile"
 check 'Mise configuration' mise doctor
@@ -28,7 +29,7 @@ if [ "$?" -ne 0 ] || [ -n "$missing" ]; then
 else
     echo 'DONE   pinned runtimes installed'
 fi
-check 'Selected Xcode (CLT alone is insufficient)' xcodebuild -version
+reminder 'Install and select Xcode later' xcodebuild -version
 check 'Vundle installed' test -f "$HOME/.vim/bundle/Vundle.vim/autoload/vundle.vim"
 reminder 'Install Android platform tools in Android Studio' test -x "$HOME/Library/Android/sdk/platform-tools/adb"
 reminder 'Install Android command-line tools in Android Studio' test -x "$HOME/Library/Android/sdk/cmdline-tools/latest/bin/sdkmanager"
