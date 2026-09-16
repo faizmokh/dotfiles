@@ -12,7 +12,7 @@ reminder() {
     if ! "$@"; then printf 'NEXT   %s\n' "$label"; fi
 }
 wezterm_config() { wezterm --config-file "$repo/.config/wezterm/wezterm.lua" show-keys --lua >/dev/null; }
-for tool in brew fish mise git git-lfs wezterm lazygit opencode; do
+for tool in brew fish mise git git-lfs wezterm lazygit opencode pi; do
     check "$tool available" command -v "$tool"
 done
 reminder 'Install xcodes later to manage Xcode versions' command -v xcodes
@@ -35,7 +35,7 @@ reminder 'Install Android platform tools in Android Studio' test -x "$HOME/Libra
 reminder 'Install Android command-line tools in Android Studio' test -x "$HOME/Library/Android/sdk/cmdline-tools/latest/bin/sdkmanager"
 reminder 'Review Android licenses with sdkmanager --licenses' test -d "$HOME/Library/Android/sdk/licenses"
 check 'Flutter SDK installed' mise -C "$repo/.config/mise" where flutter
-check 'Pi CLI installed' mise -C "$repo/.config/mise" where npm:@earendil-works/pi-coding-agent
+check 'Pi CLI installed' command -v pi
 echo 'NEXT   Run flutter doctor manually after SDK installation; it can initialize caches/download artifacts.'
 echo 'NEXT   enable Hammerspoon Accessibility permission and use /login in Pi when needed.'
 exit "$failed"
