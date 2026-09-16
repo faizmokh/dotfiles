@@ -1,6 +1,6 @@
 cask_args appdir: '/Applications'
 
-tap 'xcodesorg/made'
+tap 'xcodesorg/made', trusted: { formula: 'xcodes' }
 
 # Formulae
 
