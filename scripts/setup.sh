@@ -6,9 +6,6 @@ cd "$repo"
 case "$1" in
     packages)
         command -v brew >/dev/null || { echo 'Run ./install.sh first.' >&2; exit 1; }
-        brew tap xcodesorg/made
-        brew trust xcodesorg/made
-        brew trust --formula xcodesorg/made/xcodes
         brew bundle install --no-upgrade --file="$repo/.Brewfile"
         ;;
     runtimes)

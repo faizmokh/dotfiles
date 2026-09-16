@@ -1,7 +1,5 @@
 cask_args appdir: '/Applications'
 
-tap 'xcodesorg/made', trusted: true
-
 # Formulae
 
 brew 'coreutils'
@@ -34,12 +32,10 @@ brew 'sqlite'
 brew 'yt-dlp'
 brew 'gnupg'
 brew 'aria2'
-brew 'xcodesorg/made/xcodes', trusted: true
 brew 'zola'
 brew 'goreleaser'
 brew 'imagemagick'
 brew 'fzf'
-brew 'antinote'
 
 # Casks
 
@@ -53,7 +49,7 @@ cask 'google-chrome'
 cask 'alfred'
 cask 'deckset'
 cask 'telegram'
-cask 'spotify'
+cask 'antinote'
 cask 'imageoptim'
 cask 'wezterm'
 cask 'font-maple-mono'
