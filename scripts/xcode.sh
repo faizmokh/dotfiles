@@ -1,6 +1,10 @@
 #!/bin/bash
 set -euo pipefail
 [ "$#" -le 1 ] || { echo 'Usage: mise run setup:xcode [-- "<version>"]' >&2; exit 2; }
+if ! command -v xcodes >/dev/null 2>&1; then
+    echo 'Skipping Xcode setup: xcodes is not installed.'
+    exit 0
+fi
 if [ "$#" -eq 1 ]; then
     case "$1" in [0-9]*) ;; *) echo 'Specify an Xcode version, not an option.' >&2; exit 2 ;; esac
     xcodes install "$1"
