@@ -12,7 +12,7 @@ reminder() {
     if ! "$@"; then printf 'NEXT   %s\n' "$label"; fi
 }
 wezterm_config() { wezterm --config-file "$repo/.config/wezterm/wezterm.lua" show-keys --lua >/dev/null; }
-for tool in brew fish mise git git-lfs wezterm lazygit opencode pi java; do
+for tool in brew fish mise git git-lfs wezterm lazygit opencode pi; do
     check "$tool available" command -v "$tool"
 done
 reminder 'Install xcodes later to manage Xcode versions' command -v xcodes
