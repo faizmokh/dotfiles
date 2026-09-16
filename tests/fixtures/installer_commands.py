@@ -52,6 +52,8 @@ elif name == 'git':
     if args[:2] == ['clone', 'https://github.com/faizmokh/dotfiles.git']:
         subprocess.run(['/usr/bin/git', 'clone', os.environ['INSTALL_TEST_SOURCE'], args[-1]], check=True)
         subprocess.run(['/usr/bin/git', '-C', args[-1], 'remote', 'set-url', 'origin', args[1]], check=True)
+    elif 'pull' in args and args[-3:] == ['--ff-only', 'origin', 'master']:
+        pass
     else:
         os.execv('/usr/bin/git', ['/usr/bin/git'] + args)
 elif name == 'mise':
