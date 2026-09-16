@@ -39,7 +39,6 @@ brew 'zola'
 brew 'goreleaser'
 brew 'imagemagick'
 brew 'fzf'
-brew 'antinote'
 
 # Casks
 
@@ -53,7 +52,7 @@ cask 'google-chrome'
 cask 'alfred'
 cask 'deckset'
 cask 'telegram'
-cask 'spotify'
+cask 'antinote'
 cask 'imageoptim'
 cask 'wezterm'
 cask 'font-maple-mono'
