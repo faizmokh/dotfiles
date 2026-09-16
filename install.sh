@@ -102,16 +102,19 @@ mise dotfiles --help >/dev/null
 finish_stage
 begin_stage 'Checkout' 'Check the repo path and origin; keep local files.'
 script=${BASH_SOURCE[0]:-}
+refresh_checkout=0
 if [ -n "$script" ] && [ -f "$script" ] && [ -f "$(dirname "$script")/mise.toml" ]; then
     repo=$(cd -P "$(dirname "$script")" && pwd)
 else
     repo="$HOME/Developer/dotfiles"
+    refresh_checkout=1
 fi
 if [ ! -e "$repo" ]; then
     mkdir -p "$(dirname "$repo")"
     git clone https://github.com/faizmokh/dotfiles.git "$repo"
+    refresh_checkout=0
 else
-    report INFO "Verifying existing checkout: $repo (no pull or reset)."
+    report INFO "Verifying existing checkout: $repo."
 fi
 [ ! -L "$repo" ] || fail 'The checkout path is a symlink; inspect it before setup.'
 root=$(git -C "$repo" rev-parse --show-toplevel) || fail 'The target must be a dotfiles Git checkout.' "$?"
@@ -121,6 +124,10 @@ case "$origin" in
     https://github.com/faizmokh/dotfiles|https://github.com/faizmokh/dotfiles.git|git@github.com:faizmokh/dotfiles|git@github.com:faizmokh/dotfiles.git|ssh://git@github.com/faizmokh/dotfiles|ssh://git@github.com/faizmokh/dotfiles.git) ;;
     *) fail 'Unexpected checkout origin; expected faizmokh/dotfiles on GitHub.' ;;
 esac
+if [ "$refresh_checkout" -eq 1 ]; then
+    report INFO 'Updating existing checkout from origin/master.'
+    git -C "$repo" pull --ff-only origin master
+fi
 cd "$repo"
 finish_stage
 begin_stage 'Trust' 'Check the mise config error above.'
