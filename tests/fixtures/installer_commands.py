@@ -55,7 +55,15 @@ elif name == 'git':
     else:
         os.execv('/usr/bin/git', ['/usr/bin/git'] + args)
 elif name == 'mise':
-    if 'run' in args:
+    if args[-3:] == ['dotfiles', 'status', '--json']:
+        repo = Path(args[args.index('-C') + 1])
+        # Exercise the real adoption guard against isolated representative targets.
+        print(json.dumps({'files': [
+            {'source': str(repo / relative), 'target': str(Path.home() / relative),
+             'mode': 'symlink'}
+            for relative in ['.gitconfig', '.config/fish/config.fish']
+        ]}))
+    elif 'run' in args:
         repo = Path(args[args.index('-C') + 1])
         task = args[-1]
         with (base / 'installer-log.jsonl').open('a') as out:

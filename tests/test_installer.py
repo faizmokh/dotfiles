@@ -48,13 +48,13 @@ class Installer(Fixture):
 
     def test_fresh_remote_command_and_repeat(self):
         result = self.install(remote=True)
-        stages = re.findall(r'^RUN\s+\[(\d+)/14\] (.+)$', result.stdout, re.M)
-        self.assertEqual([int(number) for number, _ in stages], list(range(1, 15)))
+        stages = re.findall(r'^RUN\s+\[(\d+)/15\] (.+)$', result.stdout, re.M)
+        self.assertEqual([int(number) for number, _ in stages], list(range(1, 16)))
         self.assertEqual([label for _, label in stages], ['Platform', 'Command Line Tools',
-            'Homebrew', 'Prerequisites', 'Checkout', 'Trust', 'Packages', 'Runtimes',
+            'Homebrew', 'Prerequisites', 'Checkout', 'Trust', 'Dotfile conflicts', 'Packages', 'Runtimes',
             'Pi', 'Vim', 'Xcode', 'Dotfiles', 'Login shell', 'Diagnostics'])
-        self.assertEqual(len(re.findall(r'^DONE\s+\[\d+/14\].+\(\d+s\)$', result.stdout, re.M)), 14)
-        self.assertIn('Setup complete: 14/14 stages', result.stdout)
+        self.assertEqual(len(re.findall(r'^DONE\s+\[\d+/15\].+\(\d+s\)$', result.stdout, re.M)), 15)
+        self.assertIn('Setup complete: 15/15 stages', result.stdout)
         self.assertNotIn('\x1b', result.stdout + result.stderr)
         calls = self.calls()
         self.assertLess(calls.index(['mise', 'activate', 'bash', '--shims']),
@@ -66,6 +66,9 @@ class Installer(Fixture):
         checkout = self.home / 'Developer/dotfiles'
         trusts = [call[2] for call in calls if call[:2]==['mise','trust']]
         self.assertEqual(trusts,[str(checkout/'mise.toml'),str(checkout/'.config/mise/config.toml')])
+        conflict_check = ['mise', '-C', str(checkout.resolve()), 'dotfiles', 'status', '--json']
+        self.assertLess(calls.index(['mise', 'trust', trusts[-1]]), calls.index(conflict_check))
+        self.assertLess(calls.index(conflict_check), calls.index(['stage', 'setup:packages']))
         self.assertEqual(json.loads(self.state.read_text())['shell'],str(self.base/'brew/bin/fish'))
         (checkout/'local-change').write_text('keep')
         count=len(calls); repeated = self.install(remote=True)
@@ -82,7 +85,7 @@ class Installer(Fixture):
         result=self.install(success=False)
         self.assertEqual(result.returncode,42)
         self.assertIn('rerun',result.stderr)
-        self.assertRegex(result.stderr, r'FAILED\s+\[11/14\] Xcode failed after \d+s \(exit 42\)')
+        self.assertRegex(result.stderr, r'FAILED\s+\[12/15\] Xcode failed after \d+s \(exit 42\)')
         self.assertIn('Complete Apple authentication', result.stderr)
         self.assertNotIn('Setup complete', result.stdout)
         self.assertNotIn(['stage','setup:dotfiles'],self.calls())
@@ -122,6 +125,34 @@ class Installer(Fixture):
         self.env['INSTALL_TEST_FAIL_STAGE'] = 'setup:runtimes'
         self.assertEqual(self.install(success=False).returncode, 42)
         self.assertNotIn(['stage', 'setup:pi'], self.calls())
+
+    def test_dotfile_conflicts_stop_before_setup_tasks(self):
+        for remote in (False, True):
+            with self.subTest(remote=remote):
+                target = self.home / '.gitconfig'
+                target.write_text('# personal config\n')
+                result = self.install(remote=remote, success=False)
+                self.assertEqual(result.returncode, 1)
+                self.assertIn('[7/15] Dotfile conflicts failed', result.stderr)
+                self.assertIn(str(target), result.stderr)
+                self.assertEqual(target.read_text(), '# personal config\n')
+                self.assertFalse(any(call[0] == 'stage' for call in self.calls()))
+                self.assertFalse((self.home / '.local/state/dots').exists())
+                self.assertFalse((self.home / '.config/fish/config.fish').exists())
+                target.unlink()
+
+    def test_foreign_symlink_conflict_is_preserved(self):
+        original = self.home / 'personal.gitconfig'
+        original.write_text('# personal config\n')
+        target = self.home / '.gitconfig'
+        target.symlink_to(original)
+        result = self.install(success=False)
+        self.assertEqual(result.returncode, 1)
+        self.assertIn(str(target), result.stderr)
+        self.assertTrue(target.is_symlink())
+        self.assertEqual(target.resolve(), original.resolve())
+        self.assertEqual(original.read_text(), '# personal config\n')
+        self.assertFalse(any(call[0] == 'stage' for call in self.calls()))
 
     def test_android_onboarding_does_not_fail_foundation(self):
         commands = self.base / 'doctor-commands'; commands.mkdir()
@@ -182,7 +213,7 @@ class Installer(Fixture):
         output = self.terminal_install()
         self.assertIn('\x1b[36mRUN', output)
         self.assertIn('Fixture authentication accepted', output)
-        self.assertIn('Setup complete: 14/14', output)
+        self.assertIn('Setup complete: 15/15', output)
 
     def test_terminal_without_color(self):
         for term, no_color in [('xterm-256color', ''), ('dumb', None)]:
@@ -201,7 +232,7 @@ class Installer(Fixture):
         self.assertIn('Waiting for Command Line Tools (30s)', result.stdout)
         self.assertIn('Waiting for Command Line Tools (1200s)', result.stdout)
         self.assertIn('after 20 minutes', result.stderr)
-        self.assertIn('[2/14] Command Line Tools failed', result.stderr)
+        self.assertIn('[2/15] Command Line Tools failed', result.stderr)
         self.assertNotIn('Setup complete', result.stdout)
         self.assertFalse(any(call[0] == 'curl' for call in self.calls()))
 
@@ -213,15 +244,15 @@ class Installer(Fixture):
         self.env['INSTALL_TEST_SIGNAL'] = '1'
         result = self.install(success=False)
         self.assertEqual(result.returncode, 130)
-        self.assertIn('[2/14] Command Line Tools interrupted', result.stderr)
-        self.assertIn('1/14 stages completed', result.stderr)
+        self.assertIn('[2/15] Command Line Tools interrupted', result.stderr)
+        self.assertIn('1/15 stages completed', result.stderr)
         self.assertNotIn('Setup complete', result.stdout)
 
     def test_dotfile_failure_offers_conflict_recovery(self):
         self.env['INSTALL_TEST_FAIL_STAGE'] = 'setup:dotfiles'
         result = self.install(success=False)
         self.assertEqual(result.returncode, 42)
-        self.assertIn('[12/14] Dotfiles failed', result.stderr)
+        self.assertIn('[13/15] Dotfiles failed', result.stderr)
         self.assertIn('back up and move any reported conflicting files', result.stderr)
         self.assertNotIn(['stage', 'setup:shell'], self.calls())
         self.assertNotIn('Setup complete', result.stdout)

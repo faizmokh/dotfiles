@@ -26,21 +26,21 @@ begin_stage() {
     recovery=$2
     stage_started=$SECONDS
     printf '\n'
-    report RUN "[$stage_number/14] $stage"
+    report RUN "[$stage_number/15] $stage"
 }
 finish_stage() {
     completed=$((completed + 1))
-    report DONE "[$stage_number/14] $stage ($((SECONDS - stage_started))s)"
+    report DONE "[$stage_number/15] $stage ($((SECONDS - stage_started))s)"
 }
 failed() {
     local code=$1
     trap - ERR INT TERM
     if [ "$code" -eq 130 ] || [ "$code" -eq 143 ]; then
-        report FAILED "[$stage_number/14] $stage interrupted after $((SECONDS - stage_started))s (exit $code)." >&2
+        report FAILED "[$stage_number/15] $stage interrupted after $((SECONDS - stage_started))s (exit $code)." >&2
     else
-        report FAILED "[$stage_number/14] $stage failed after $((SECONDS - stage_started))s (exit $code)." >&2
+        report FAILED "[$stage_number/15] $stage failed after $((SECONDS - stage_started))s (exit $code)." >&2
     fi
-    report INFO "$completed/14 stages completed; total elapsed $((SECONDS - started))s." >&2
+    report INFO "$completed/15 stages completed; total elapsed $((SECONDS - started))s." >&2
     report NEXT "$recovery Then rerun setup." >&2
     exit "$code"
 }
@@ -49,8 +49,17 @@ trap 'failed 130' INT
 trap 'failed 143' TERM
 fail() { report FAILED "$1" >&2; failed "${2:-1}"; }
 
-printf '\ndots | macOS setup\n'
-report INFO '14 stages. Follow password, license, and Apple sign-in prompts.'
+cat <<'BANNER'
+
+     _       _
+  __| | ___ | |_ ___
+ / _` |/ _ \| __/ __|
+| (_| | (_) | |_\__ \
+ \__,_|\___/ \__|___/
+
+macOS setup
+BANNER
+report INFO '15 stages. Follow password, license, and Apple sign-in prompts.'
 begin_stage 'Platform' 'Use an Apple Silicon Mac outside Rosetta.'
 [ "$#" -eq 0 ] || fail 'The installer takes no arguments.'
 [ "$(uname -s)" = Darwin ] && [ "$(uname -m)" = arm64 ] || fail 'Apple Silicon macOS is required; run outside Rosetta.'
@@ -122,6 +131,11 @@ mise_environment=$(mise activate bash --shims)
 eval "$mise_environment"
 finish_stage
 
+# Fail before expensive setup work; dots apply repeats this guard before mutation.
+begin_stage 'Dotfile conflicts' 'Back up and move any reported conflicting files.'
+/usr/bin/python3 "$repo/scripts/check-dotfiles.py"
+finish_stage
+
 # Run each task directly so the active heading identifies failures precisely.
 tasks=(setup:packages setup:runtimes setup:pi setup:vim setup:xcode setup:dotfiles setup:shell doctor)
 labels=('Packages' 'Runtimes' 'Pi' 'Vim' 'Xcode' 'Dotfiles' 'Login shell' 'Diagnostics')
@@ -141,7 +155,7 @@ for index in "${!tasks[@]}"; do
     finish_stage
 done
 printf '\n'
-report DONE "Setup complete: $completed/14 stages in $((SECONDS - started))s."
+report DONE "Setup complete: $completed/15 stages in $((SECONDS - started))s."
 report NEXT 'Open WezTerm to use fish.'
 report NEXT 'Android: install SDK tools, accept licenses, then run flutter doctor.'
 report NEXT 'Pi: run pi, then /login.'
