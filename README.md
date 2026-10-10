@@ -30,11 +30,10 @@ all commands.
 dots diff
 dots add .config/fish/config.fish
 dots diff --staged
-dots commit -m "Update fish config"
 dots push
 ```
 
-Stage named files only. Use `dots pull` to update a clean checkout.
+`dots push` auto-commits staged changes with a timestamp. Stage named files only. Use `dots pull` to update a clean checkout.
 Pi settings live in `~/.pi`; use `dots pi status`, `diff`, `add`, `commit`, `pull`,
 and `push` to manage them separately.
 

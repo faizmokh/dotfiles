@@ -1,5 +1,6 @@
 cask_args appdir: '/Applications'
 
+tap 'faizmokh/tap', trusted: true
 tap 'xcodesorg/made', trusted: true
 
 # Formulae
@@ -36,11 +37,13 @@ brew 'sqlite'
 brew 'yt-dlp'
 brew 'gnupg'
 brew 'aria2'
+brew 'asc'
 brew 'xcodesorg/made/xcodes', trusted: true
 brew 'zola'
 brew 'goreleaser'
 brew 'imagemagick'
 brew 'fzf'
+brew 'faizmokh/tap/skmr', trusted: true
 
 # Casks
 
@@ -64,3 +67,8 @@ cask 'drawio'
 cask 'vlc'
 cask 'netnewswire'
 cask 'transmission'
+cask 'chatgpt'
+cask 'display-pilot'
+cask 'firefox'
+cask 'font-maple-mono-nf'
+cask 'sf-symbols'

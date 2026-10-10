@@ -139,7 +139,9 @@ class GitSurface(Fixture):
         self.git("push", "-u", "origin", "main")
         (self.repo / "one").write_text("one")
         self.dots("add", "one")
-        self.dots("commit", "-m", "one")
+        self.dots("push")
+        self.assertRegex(self.git("log", "-1", "--format=%s").stdout.strip(),
+                         r"^Update dotfiles \d{4}-\d{2}-\d{2} ")
         self.git("branch", "extra")
         self.git("tag", "-a", "local-only", "-m", "must stay local")
         self.git("config", "push.followTags", "true")

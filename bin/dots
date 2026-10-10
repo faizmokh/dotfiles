@@ -21,6 +21,11 @@ require_mise() {
     command -v mise >/dev/null || fail 'mise is missing. Run ./install.sh first.'
     mise dotfiles --help >/dev/null 2>&1 || fail 'Upgrade mise: native dotfiles support is required (tested with 2026.9.9).'
 }
+timestamp_commit() {
+    if ! git diff --cached --quiet --exit-code --; then
+        git commit -m "Update dotfiles $(date '+%Y-%m-%d %H:%M:%S %z')"
+    fi
+}
 upstream() {
     branch=$(git symbolic-ref --quiet --short HEAD) || fail 'Check out a branch first.'
     remote=$(git config --get "branch.$branch.remote") || fail 'No upstream. Configure a reviewed upstream with Git first.'
@@ -49,7 +54,7 @@ Usage: dots <command>
   add <files...>          Stage literal, repository-relative files (including deletions)
   commit -m <message>     Commit only what is already staged
   pull                    Fast-forward from upstream; requires a clean checkout
-  push                    Push only this branch to its upstream
+  push                    Auto-commit staged changes, then push this branch to upstream
   help                    Show this help
 HELP
 }
@@ -143,6 +148,7 @@ case "$command_name" in
         ;;
     push)
         no_args "$@"; upstream
+        timestamp_commit
         exec git push --no-mirror --no-follow-tags --recurse-submodules=no "$remote" "HEAD:$merge"
         ;;
     *) fail "Unknown command: $command_name. See dots help." ;;
