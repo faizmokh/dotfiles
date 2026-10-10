@@ -39,8 +39,8 @@ Usage: dots <command>
   apply [--dry-run]       Apply or preview managed files (never force)
   setup                   Complete machine setup, including Xcode and login shell
   doctor                  Read-only checks; never installs missing tools
-  capture xcode           Capture declared Xcode files/preferences, without staging
-  restore xcode <backup>  Restore only Xcode preference keys from a dots backup
+  capture xcode           Xcode → dotfiles: save themes, keybindings, preferences
+  restore xcode <backup>  Backup → Xcode: roll back preference values only
   pi status               Show piconf repository status
   pi diff [--staged]      Review piconf changes
   pi add <files...>       Stage named piconf files

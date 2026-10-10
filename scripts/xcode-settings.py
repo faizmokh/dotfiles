@@ -134,7 +134,7 @@ def capture(wanted, current):
     for path, data in writes:
         if path.read_bytes() != data:
             atomic_write(path, data)
-    print('Captured declared Xcode settings. Review dots git diff; nothing was staged.')
+    print('Captured Xcode → dotfiles. Review `dots diff`; nothing was staged.')
 
 
 def restore(path):
@@ -166,7 +166,7 @@ def restore(path):
             subprocess.run(['defaults', 'write', DOMAIN, key, flags[type(value)], text], check=True)
         elif key in current:
             subprocess.run(['defaults', 'delete', DOMAIN, key], check=True)
-    print('Restored selected preferences. A later dots apply will restore the repository values.')
+    print('Restored backup → Xcode preferences. A later `dots apply` will restore the repository values.')
 
 
 def main():

@@ -1,5 +1,7 @@
 cask_args appdir: '/Applications'
 
+tap 'xcodesorg/made', trusted: true
+
 # Formulae
 
 brew 'coreutils'
@@ -14,6 +16,7 @@ brew 'vim'
 brew 'tmux'
 brew 'wget'
 brew 'fish'
+brew 'fisher'
 brew 'mise'
 brew 'cmake'
 brew 'postgresql@18', restart_service: false
@@ -33,6 +36,7 @@ brew 'sqlite'
 brew 'yt-dlp'
 brew 'gnupg'
 brew 'aria2'
+brew 'xcodesorg/made/xcodes', trusted: true
 brew 'zola'
 brew 'goreleaser'
 brew 'imagemagick'

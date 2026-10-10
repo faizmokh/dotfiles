@@ -44,12 +44,18 @@ Includes Catppuccin Latte, Dracula Maple, keybindings, and editor settings.
 Quit Xcode before saving local edits:
 
 ```sh
+# Copy your current Xcode setup into the dotfiles repo (does not stage changes)
 dots capture xcode
 dots diff
 ```
 
-Review and commit the changed files. Apply backs up changed preferences. Restore
-with `dots restore xcode /absolute/path/to/backup.json`.
+Review and commit the changed files. Applying dotfiles backs up changed live
+preferences first. To roll those preferences back into Xcode:
+
+```sh
+# Copy a backup into Xcode (preferences only; does not restore files)
+dots restore xcode /absolute/path/to/backup.json
+```
 
 ## Update tools
 
