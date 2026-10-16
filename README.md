@@ -61,7 +61,7 @@ dots restore xcode /absolute/path/to/backup.json
 Run from the repo:
 
 ```sh
-# After editing .Brewfile:
+# After editing .Brewfile (including Mac App Store apps):
 mise run setup:packages
 
 # After editing versions in .config/mise/config.toml:

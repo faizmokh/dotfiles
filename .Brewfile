@@ -19,6 +19,7 @@ brew 'wget'
 brew 'fish'
 brew 'fisher'
 brew 'mise'
+brew 'mas'
 brew 'cmake'
 brew 'postgresql@18', restart_service: false
 brew 'zoxide'
@@ -72,3 +73,8 @@ cask 'display-pilot'
 cask 'firefox'
 cask 'font-maple-mono-nf'
 cask 'sf-symbols'
+
+# Mac App Store
+mas 'Ghostery AdBlocker for Privacy', id: 6504861501
+mas 'uBlock Origin Lite', id: 6745342698
+mas 'iA Writer', id: 775737590
